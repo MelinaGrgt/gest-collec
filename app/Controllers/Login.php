@@ -6,19 +6,19 @@ class Login extends BaseController
 {
     protected $require_auth = false;
 
-    public function getIndex(): string
+    public function getindex(): string
     {
         return view('/login/login');
     }
 
-    public function postIndex()
+    public function postindex()
     {
         // Traitement de la connexion
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         // Logique de vérification des informations d'identification
-        $um = Model("UserModel");
-        $user = $um->VerifyLogin($email,$password);
+        $um = Model('UserModel');
+        $user = $um->verifyLogin($email,$password);
 
         if ($user) {
             $this->session->set('user', $user);
@@ -31,20 +31,33 @@ class Login extends BaseController
         }
     }
 
-    public function getRegister() {
-        return view('/login/register');
+    public function getregister() {
+        $flashData = session()->getFlashdata('data');
+
+        // Préparer les données à passer à la vue
+        $data = [
+            'errors' => $flashData['errors'] ?? null,
+            // Autres données à passer à la vue
+        ];
+        return view('/login/register',$data);
     }
 
-    public function postRegister() {
+    public function postregister() {
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         $username = $this->request->getPost('username');
-        $data = ['username' => $username,'email' => $email,'password' => $password, 'id_permission' => 3];
-        $um = Model("UserModel");
-        if (!$um ->createUser($data)) {
+        $data = ['username' => $username, 'email' => $email, 'password' => $password, 'id_permission' => 3];
+        $um = Model('UserModel');
+        if (!$um->createUser($data)) {
             $errors = $um->errors();
-            return $this->view('login/register', ['errors' => $errors]);
+            $data = ['errors' => $errors];
+            return $this->redirect("/login/register", $data);
         }
-        return $this->redirect("/Login");
+        return $this->redirect("/login");
+    }
+
+    public function getlogout() {
+        $this->logout();
+        return $this->redirect("/login");
     }
 }

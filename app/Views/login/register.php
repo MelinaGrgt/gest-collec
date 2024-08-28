@@ -68,13 +68,20 @@
 <body>
 <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
+        <?php $flashData = session()->getFlashdata('data'); ?>
+        <?php if ($flashData) { ?>
+            <p>Flashdata trouvée :</p>
+            <pre><?php print_r($flashData); ?></pre>
+        <?php } else { ?>
+            <p>Aucune flashdata trouvée.</p>
+        <?php } ?>
         <?php if (isset($errors)) { ?>
             <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <?php foreach ($errors as $error) { ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?= $error ?>
-                    </div>
+                <div class="col-md-5">
+                    <?php foreach($errors as $error) { ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $error ?>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
@@ -92,23 +99,23 @@
                                         <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                     </svg>
                                 </span>
-                                <input class="form-control" type="text" name="username" placeholder="Nom d'utilisateur" required>
+                                <input class="form-control" type="text" placeholder="Pseudo" name="username" required>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg class="icon">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
                                     </svg>
                                 </span>
-                                <input class="form-control" type="text" name="email" placeholder="Email" required>
+                                <input class="form-control" type="email" placeholder="Email" name="email" required>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg class="icon">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                     </svg>
                                 </span>
-                                <input class="form-control" type="password" name="password" placeholder="Mot de passe" required>
+                                <input class="form-control" type="password" placeholder="Mot de passe" name="password" required>
                             </div>
                             <button class="btn btn-block btn-primary" type="submit">Créer mon compte</button>
                         </form>
