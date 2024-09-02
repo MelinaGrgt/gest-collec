@@ -33,4 +33,62 @@ class UserPermissionModel extends Model
             ->select('TableUser.*, TableUserPermission.name as permission_name')
             ->findAll();
     }
+
+    public function getAllPermissions(){
+        return $this->findAll();
+    }
+
+    public function getUserPermissionById($id){
+        return $this->find($id);
+    }
+
+    public function updatePermission($id,$data) {
+        $builder = $this->builder();
+        $builder->where('id', $id);
+        return $builder->update($data);
+    }
+
+    public function createPermission($data)
+    {
+        return $this->insert($data);
+    }
+
+    public function deletePermission($id)
+    {
+        return $this->delete($id);
+    }
+    public function getPaginatedPermission($start, $length, $searchValue, $orderColumnName, $orderDirection)
+    {
+        $builder = $this->builder();
+        // Recherche
+        if ($searchValue != null) {
+            $builder->like('name', $searchValue);
+        }
+
+        // Tri
+        if ($orderColumnName && $orderDirection) {
+            $builder->orderBy($orderColumnName, $orderDirection);
+        }
+
+        $builder->limit($length, $start);
+
+        return $builder->get()->getResultArray();
+    }
+
+    public function getTotalPermission()
+    {
+        $builder = $this->builder();
+        return $builder->countAllResults();
+    }
+
+    public function getFilteredPermission($searchValue)
+    {
+        $builder = $this->builder();
+        // @phpstan-ignore-next-line
+        if (! empty($searchValue)) {
+            $builder->like('name', $searchValue);
+        }
+
+        return $builder->countAllResults();
+    }
 }

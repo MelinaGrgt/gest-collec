@@ -91,7 +91,7 @@
                                         <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                       </svg>
                                     </span>
-                                    <input class="form-control" type="mail" placeholder="Adresse Mail" name="email">
+                                    <input class="form-control" type="email" placeholder="Adresse Mail" name="email">
                                 </div>
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">

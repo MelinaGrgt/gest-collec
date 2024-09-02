@@ -88,16 +88,33 @@ class UserModel extends Model
     }
     public function updateUser($id, $data)
     {
-        return $this->update($id, $data);
+        $builder = $this->builder();
+        if (isset($data['password'])) {
+            if($data['password'] == '') {
+                unset($data['password']);
+            } else {
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
+        }
+        $builder->where('id', $id);
+        return $builder->update($data);
     }
     public function deleteUser($id)
     {
         return $this->delete($id);
     }
+
+    public function activateUser($id) {
+        $builder = $this->builder();
+        $builder->set('deleted_at', NULL);
+        $builder->where('id', $id);
+        return $builder->update();
+    }
+
     public function verifyLogin($email, $password)
     {
         // Rechercher l'utilisateur par email
-        $user = $this->where('email', $email)->first();
+        $user = $this->withDeleted()->where('email', $email)->first();
 
         // Si l'utilisateur existe, vérifier le mot de passe
         if ($user && password_verify($password, $user['password'])) {
@@ -109,4 +126,55 @@ class UserModel extends Model
         return false;
     }
 
+    public function getPaginatedUser($start, $length, $searchValue, $orderColumnName, $orderDirection)
+    {
+        $builder = $this->builder();
+        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id');
+        $builder->select('TableUser.*, TableUserPermission.name as permission_name');
+        // Recherche
+        if ($searchValue != null) {
+            $builder->like('username', $searchValue);
+            $builder->orLike('email', $searchValue);
+            $builder->orLike('TableUserPermission.name', $searchValue);
+        }
+
+        // Tri
+        if ($orderColumnName && $orderDirection) {
+            $builder->orderBy($orderColumnName, $orderDirection);
+        }
+
+        $builder->limit($length, $start);
+
+        return $builder->get()->getResultArray();
+    }
+
+    public function getTotalUser()
+    {
+        $builder = $this->builder();
+        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id');
+        return $builder->countAllResults();
+    }
+
+    public function getFilteredUser($searchValue)
+    {
+        $builder = $this->builder();
+        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id');
+        $builder->select('TableUser.*, TableUserPermission.name as permission_name');
+        // @phpstan-ignore-next-line
+        if (! empty($searchValue)) {
+            $builder->like('username', $searchValue);
+            $builder->orLike('email', $searchValue);
+            $builder->orLike('TableUserPermission.name', $searchValue);
+        }
+
+        return $builder->countAllResults();
+    }
+
+    public function CountUserByPermission(){
+        $builder = $this->db->table('TableUser U');
+        $builder->select('UP.name, count(U.id) as count');
+        $builder->join('TableUserPermission UP', 'U.id_permission = UP.id');
+        $builder->groupBy('U.id_permission');
+        return $builder->get()-> getResultArray();
+    }
 }
