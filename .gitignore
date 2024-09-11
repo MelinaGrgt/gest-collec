@@ -41,7 +41,6 @@ $RECYCLE.BIN/
 #-------------------------
 # These should never be under version control,
 # as it poses a security risk.
-.env
 .vagrant
 Vagrantfile
 
@@ -78,7 +77,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 #-------------------------
 tests/coverage*
 
-# Don't save phpunit under version control.
+# Don't save php unit under version control.
 phpunit
 
 #-------------------------
@@ -124,5 +123,6 @@ nb-configuration.xml
 
 /results/
 /phpunit*.xml
-/.phpunit.*.cache
 
+#images
+/public/uploads/

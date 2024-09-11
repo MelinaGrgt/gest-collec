@@ -1,14 +1,15 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>Liste des Permissions</h4>
+        <h4>Liste des rôles</h4>
         <a href="/admin/userpermission/new"><i class="fa-solid fa-circle-plus"></i></a>
     </div>
     <div class="card-body">
-        <table id="tablePermission" class="table table-hover">
+        <table id="tablePermission" class="table table-hover table-striped">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Slug</th>
                 <th>Modifier</th>
                 <th>Supprimer</th>
             </tr>
@@ -37,6 +38,7 @@
             "columns": [
                 {"data": "id"},
                 {"data": "name"},
+                {"data": "slug"},
                 {
                     data : 'id',
                     sortable : false,

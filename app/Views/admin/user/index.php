@@ -4,10 +4,11 @@
         <a href="/admin/user/new"><i class="fa-solid fa-user-plus"></i></a>
     </div>
     <div class="card-body">
-        <table id="tableUsers" class="table table-hover">
-            <thead>
+        <table id="tableUsers" class="table table-hover table-striped">
+            <thead class="text-bg-secondary">
             <tr>
                 <th>ID</th>
+                <th>Avatar</th>
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Rôle</th>
@@ -24,6 +25,7 @@
 
 <script>
     $(document).ready(function () {
+        var baseUrl = "<?= base_url(); ?>";
         var dataTable = $('#tableUsers').DataTable({
             "responsive": true,
             "processing": true,
@@ -38,6 +40,18 @@
             },
             "columns": [
                 {"data": "id"},
+                {
+                    data : 'avatar_url',
+                    sortable : false,
+                    render : function(data) {
+                        if (data) {
+                            return `<img src="${baseUrl}/${data}" alt="Avatar" style="max-width: 20px; height: auto;">`;
+                        } else {
+                            // Retourne une image par défaut si data est vide
+                            return '<img src="' + baseUrl + '/assets/img/avatars/1.jpg" alt="Default Avatar" style="max-width: 20px; height: auto;">';
+                        }
+                    }
+                },
                 {"data": "username"},
                 {"data": "email"},
                 {"data": "permission_name"},

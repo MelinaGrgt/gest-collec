@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col">
-        <form action="<?= isset($utilisateur) ? "/admin/user/update" : "/admin/user/create" ?>" method="POST">
+        <form action="<?= isset($utilisateur) ? "/admin/user/update" : "/admin/user/create" ?>" method="POST"  enctype="multipart/form-data">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="mail" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="mail" placeholder="Email" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" name="email" <?= isset($utilisateur) ? "readonly" : "" ?> >
+                        <input type="email" class="form-control" id="mail" placeholder="Email" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" name="email" <?= isset($utilisateur) ? "readonly" : "" ?> >
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe</label>
@@ -30,6 +30,10 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Avatar</label>
+                        <input class="form-control" type="file" name="profile_image" id="image" />
                     </div>
                 </div>
                 <div class="card-footer text-end">

@@ -7,6 +7,7 @@ use App\Controllers\BaseController;
 class User extends BaseController
 {
     protected $require_auth = true;
+    protected $requiredPermissions = ['administrateur'];
     public function getindex($id = null) {
         $um = Model("UserModel");
         if ($id == null) {
@@ -30,6 +31,25 @@ class User extends BaseController
     public function postupdate() {
         $data = $this->request->getPost();
         $um = Model("UserModel");
+
+        // Vérifier si des fichiers ont été soumis dans le formulaire
+        $file = $this->request->getFile('profile_image'); // 'profile_image' est le nom du champ dans le formulaire
+        if ($file && $file->isValid()) {
+            // Préparer les données du média
+            $mediaData = [
+                'entity_type' => 'user',
+                'entity_id'   => $data['id'],   // Utiliser le nouvel ID de l'utilisateur
+            ];
+
+            // Utiliser la fonction upload_file() pour gérer l'upload et les données du média
+            $filePath = upload_file($file, 'avatar', $data['username'], $mediaData);
+
+            if ($filePath === false) {
+                $this->error("Une erreur est survenue lors de l'upload de l'image.");
+                return $this->redirect("/admin/user");
+            }
+        }
+
         if ($um->updateUser($data['id'], $data)) {
             $this->success("Utilisateur à bien été modifié");
         } else {
