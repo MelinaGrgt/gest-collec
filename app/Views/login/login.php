@@ -68,6 +68,11 @@
 <body>
 <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-1">
+                <img src="/assets/brand/logo-bleu.svg">
+            </div>
+        </div>
         <?php if (isset($error)) { ?>
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -91,7 +96,7 @@
                                         <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                       </svg>
                                     </span>
-                                    <input class="form-control" type="email" placeholder="Adresse Mail" name="email">
+                                    <input class="form-control" type="mail" placeholder="Adresse Mail" name="email">
                                 </div>
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">
@@ -128,5 +133,3 @@
     </div>
 </div>
 </body>
-
-

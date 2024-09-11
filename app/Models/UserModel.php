@@ -104,6 +104,14 @@ class UserModel extends Model
         return $this->delete($id);
     }
 
+    public function countUserByPermission() {
+        $builder = $this->db->table('TableUser U');
+        $builder->select('UP.name, count(U.id) as count');
+        $builder->join('TableUserPermission UP', 'U.id_permission = UP.id');
+        $builder->groupBy('U.id_permission');
+        return $builder->get()->getResultArray();
+    }
+
     public function activateUser($id) {
         $builder = $this->builder();
         $builder->set('deleted_at', NULL);
@@ -129,8 +137,10 @@ class UserModel extends Model
     public function getPaginatedUser($start, $length, $searchValue, $orderColumnName, $orderDirection)
     {
         $builder = $this->builder();
-        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id');
-        $builder->select('TableUser.*, TableUserPermission.name as permission_name');
+        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id', 'left');
+        $builder->join('media', 'TableUser.id = media.entity_id AND media.entity_type = "user"', 'left');
+        $builder->select('TableUser.*, TableUserPermission.name as permission_name, media.file_path as avatar_url');
+
         // Recherche
         if ($searchValue != null) {
             $builder->like('username', $searchValue);
@@ -158,8 +168,10 @@ class UserModel extends Model
     public function getFilteredUser($searchValue)
     {
         $builder = $this->builder();
-        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id');
-        $builder->select('TableUser.*, TableUserPermission.name as permission_name');
+        $builder->join('TableUserPermission', 'TableUser.id_permission = TableUserPermission.id', 'left');
+        $builder->join('media', 'TableUser.id = media.entity_id AND media.entity_type = "user"', 'left');
+        $builder->select('TableUser.*, TableUserPermission.name as permission_name, media.file_path as avatar_url');
+
         // @phpstan-ignore-next-line
         if (! empty($searchValue)) {
             $builder->like('username', $searchValue);
@@ -170,11 +182,5 @@ class UserModel extends Model
         return $builder->countAllResults();
     }
 
-    public function CountUserByPermission(){
-        $builder = $this->db->table('TableUser U');
-        $builder->select('UP.name, count(U.id) as count');
-        $builder->join('TableUserPermission UP', 'U.id_permission = UP.id');
-        $builder->groupBy('U.id_permission');
-        return $builder->get()-> getResultArray();
-    }
+
 }
