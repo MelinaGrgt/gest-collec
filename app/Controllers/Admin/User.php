@@ -3,7 +3,6 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-
 class User extends BaseController
 {
     protected $require_auth = true;
@@ -29,39 +28,85 @@ class User extends BaseController
     }
 
     public function postupdate() {
+        // Récupération des données envoyées via POST
         $data = $this->request->getPost();
+        // Récupération du modèle UserModel
         $um = Model("UserModel");
 
-        // Vérifier si des fichiers ont été soumis dans le formulaire
+        // Vérifier si un fichier a été soumis dans le formulaire
         $file = $this->request->getFile('profile_image'); // 'profile_image' est le nom du champ dans le formulaire
-        if ($file && $file->isValid()) {
-            // Préparer les données du média
+        // Si un fichier a été soumis
+        if ($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+            // Récupération du modèle MediaModel
+            $mm = Model('MediaModel');
+            // Récupérer l'ancien média avant l'upload
+            $old_media = $mm->getMediaByEntityIdAndType($data['id'], 'user');
+
+            // Préparer les données du média pour le nouvel upload
             $mediaData = [
                 'entity_type' => 'user',
-                'entity_id'   => $data['id'],   // Utiliser le nouvel ID de l'utilisateur
+                'entity_id'   => $data['id'],   // Utiliser l'ID de l'utilisateur
             ];
 
-            // Utiliser la fonction upload_file() pour gérer l'upload et les données du média
-            $filePath = upload_file($file, 'avatar', $data['username'], $mediaData);
+            // Utiliser la fonction upload_file() pour gérer l'upload et enregistrer les données du média
+            $uploadResult = upload_file($file, 'avatar', $data['username'], $mediaData, true, ['image/jpeg', 'image/png','image/jpg']);
 
-            if ($filePath === false) {
-                $this->error("Une erreur est survenue lors de l'upload de l'image.");
+            // Vérifier le résultat de l'upload
+            if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                // Afficher un message d'erreur détaillé et rediriger
+                $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
                 return $this->redirect("/admin/user");
+            }
+
+            // Si l'upload est un succès, suppression de l'ancien média
+            if ($old_media) {
+                $mm->deleteMedia($old_media[0]['id']);
             }
         }
 
+        // Mise à jour des informations utilisateur dans la base de données
         if ($um->updateUser($data['id'], $data)) {
-            $this->success("Utilisateur à bien été modifié");
+            // Si la mise à jour réussit
+            $this->success("L'utilisateur a bien été modifié.");
         } else {
-            $this->error("Une erreur est survenue");
+            // Si une erreur survient lors de la mise à jour
+            $this->error("Une erreur est survenue lors de la modification de l'utilisateur.");
         }
-        $this->redirect("/admin/user");
+
+        // Redirection vers la page des utilisateurs après le traitement
+        return $this->redirect("/admin/user");
     }
+
+
 
     public function postcreate() {
         $data = $this->request->getPost();
         $um = Model("UserModel");
-        if ($um->createUser($data)) {
+
+        // Créer l'utilisateur et obtenir son ID
+        $newUserId = $um->createUser($data);
+
+        // Vérifier si la création a réussi
+        if ($newUserId) {
+            // Vérifier si des fichiers ont été soumis dans le formulaire
+            $file = $this->request->getFile('profile_image'); // 'profile_image' est le nom du champ dans le formulaire
+            if ($file && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+                // Préparer les données du média
+                $mediaData = [
+                    'entity_type' => 'user',
+                    'entity_id'   => $newUserId,   // Utiliser le nouvel ID de l'utilisateur
+                ];
+
+                // Utiliser la fonction upload_file() pour gérer l'upload et les données du média
+                $uploadResult = upload_file($file, 'avatar', $data['username'], $mediaData);
+
+                // Vérifier le résultat de l'upload
+                if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                    // Afficher un message d'erreur détaillé et rediriger
+                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
+                    return $this->redirect("/admin/user/new");
+                }
+            }
             $this->success("L'utilisateur à bien été ajouté.");
             $this->redirect("/admin/user");
         } else {
@@ -109,9 +154,10 @@ class User extends BaseController
         $searchValue = $this->request->getPost('search')['value'];
 
         // Obtenez les informations sur le tri envoyées par DataTables
-        $orderColumnIndex = $this->request->getPost('order')[0]['column'];
-        $orderDirection = $this->request->getPost('order')[0]['dir'];
-        $orderColumnName = $this->request->getPost('columns')[$orderColumnIndex]['data'];
+        $orderColumnIndex = $this->request->getPost('order')[0]['column'] ?? 0;
+        $orderDirection = $this->request->getPost('order')[0]['dir'] ?? 'asc';
+        $orderColumnName = $this->request->getPost('columns')[$orderColumnIndex]['data'] ?? 'id';
+
 
         // Obtenez les données triées et filtrées
         $data = $UserModel->getPaginatedUser($start, $length, $searchValue, $orderColumnName, $orderDirection);
