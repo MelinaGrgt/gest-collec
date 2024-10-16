@@ -2,7 +2,7 @@
     <div class="col">
         <div class="card">
             <div class="card-header">
-                <h3>Licences d'objet</h3>
+                <h3>Gestion des Licences d'objets</h3>
             </div>
         </div>
     </div>
@@ -60,7 +60,38 @@
             </div>
         </div>
     </div>
+    <div class="modal" tabindex="-1" id="modalLicense">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modifier License</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="/admin/item/updatelicense">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="">
+                    <label class="form-label" for="nom">Modifier le nom</label>
+                   <input type="text" name="name" id="nom" class="form-control">
+                    <label class="form-label">Licence parente</label>
+                    <select class="form-select" name="id_license_parent">
+                        <option value="" selected>Aucun</option>
+                        <?php foreach ($all_licenses as $license) { ?>
+                            <option value="<?= $license['id']; ?>">
+                                <?= $license['name']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary" value="Valider">Sauvegarder les modifications</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script>
     $(document).ready(function () {
         var dataTable = $('#tableLicenses').DataTable({
@@ -80,20 +111,31 @@
             "columns": [
                 {"data": "id"},
                 {"data": "id_license_parent"},
-                {"data": "name"},
-                {"data": "slug"},
+                { data: "name",
+                    render : function(data){
+                        return `<span class="name-license">${data}</span>`;
+                    }
+                },
                 {"data": "slug"},
                 {
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-license" id="${data}" swal2-title="Êtes-vous sûr de vouloir supprimer cette license" swal2-text=""href="<?= base_url('/admin/item/deletelicense/'); ?>${data}"><i class="fa-solid
+                        return `<a class="swal2-license-update" id="${data}" swal2-title="Êtes-vous sûr de vouloir modifier cette license" swal2-text=""href="<?= base_url('/admin/item/updatelicense/'); ?>${data}"><i class="fa-solid
+                        fa-pencil text-primary"></i></a>`;
+                    }
+                },
+                {
+                    data : 'id',
+                    sortable : false,
+                    render : function(data) {
+                        return `<a class="swal2-license-delete" id="${data}" swal2-title="Êtes-vous sûr de vouloir supprimer cette license" swal2-text=""href="<?= base_url('/admin/item/deletelicense/'); ?>${data}"><i class="fa-solid
                         fa-trash text-danger"></i></a>`;
                     }
                 }
             ]
         });
-        $("body").on('click','.swal2-license', function(event){
+        $("body").on('click','.swal2-license-delete', function(event){
             event.preventDefault();
             let title = $(this).attr("swal2-title");
             let text = $(this).attr("swal2-text");
@@ -118,5 +160,17 @@
                 })
             }
         });
+        $("body").on('click','.swal2-license-update',function (event){
+            event.preventDefault();
+            const modalLicense = new bootstrap.Modal('#modalLicense');
+            modalLicense.show();
+            let id_license = $(this).attr("id");
+            let name = $(this).closest('tr').find('.name-license').html();
+            console.log('name');
+            $('.modal input[name="id"]').val(id_license);
+            $('.modal input[name="name"]').val(name);
+        })
     })
 </script>
+
+
