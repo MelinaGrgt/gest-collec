@@ -83,10 +83,4 @@ class Item extends BaseController
         // Retourne les résultats sous forme JSON pour Select2
         return $this->response->setJSON($results);
     }
-
-
-
-
-
-
 }
