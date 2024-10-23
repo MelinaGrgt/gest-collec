@@ -1,4 +1,6 @@
-<form action="/admin/item/<?= isset($item['id']) ?'updateitem' : 'createitem' ?>" method="POST" enctype="multipart/form-data">
+<form action=     "/admin/item/<?= isset($item['id']) ?'updateitem' : 'createitem' ?>"
+
+      method="POST" enctype="multipart/form-data">
     <?php if (isset($item['id'])): ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars($item['id']) ?>">
     <?php endif; ?>
@@ -46,6 +48,11 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="genre-tab" data-bs-toggle="tab" data-bs-target="#genre-pane" type="button" role="tab" aria-controls="genre" aria-selected="false">Genre</button>
                                 </li>
+                                <?php if (isset($item)) { ?>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment-pane" type="button" role="tab" aria-controls="comment" aria-selected="false">Commentaires</button>
+                                </li>
+                                <?php } ?>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content p-3">
@@ -130,6 +137,27 @@
                                             </div>
                                         <?php }
                                         ?>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="comment-pane" role="tabpanel" aria-labelledby="comment-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-sm table-hover table-auto w-100" id="tableComments">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Reponse</th>
+                                                    <th>Commentaire</th>
+                                                    <th>Auteur</th>
+                                                    <th>Date d'édition</th>
+                                                    <th>Editer</th>
+                                                    <th>Actif</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -272,11 +300,11 @@ function hasSelectedChild($node, $selectedId) {
 ?>
 <script>
     $(document).ready(function () {
-        document.getElementById('search-genre').addEventListener('input', function() {
+        document.getElementById('search-genre').addEventListener('input', function () {
             var searchValue = this.value.toLowerCase();
             var genreItems = document.querySelectorAll('.genre-item');
 
-            genreItems.forEach(function(item) {
+            genreItems.forEach(function (item) {
                 var genreName = item.querySelector('label').textContent.toLowerCase();
 
                 // Affiche ou masque les genres en fonction de la recherche
@@ -290,23 +318,23 @@ function hasSelectedChild($node, $selectedId) {
 
         tinymce.init({
             selector: '#description',
-            height : "300",
+            height: "300",
             language: 'fr_FR',
             menubar: false,
             plugins: [
-                'preview', 'code', 'fullscreen','wordcount', 'link','lists',
+                'preview', 'code', 'fullscreen', 'wordcount', 'link', 'lists',
             ],
             skin: 'oxide',
             content_encoding: 'text',
             toolbar: 'undo redo | formatselect | ' +
                 'bold italic link forecolor backcolor removeformat | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +' fullscreen  preview code'
+                'alignright alignjustify | bullist numlist outdent indent | ' + ' fullscreen  preview code'
         });
 
-        $('.medias').on('mouseenter mouseleave','.media', function(){
+        $('.medias').on('mouseenter mouseleave', '.media', function () {
             $(this).find('.media-mask').toggleClass('d-none');
         });
-        $('.medias').on('click','.media-delete', function(e){
+        $('.medias').on('click', '.media-delete', function (e) {
             let media = $(this).closest('.media');
             let id = media.data("id");
             let url = "<?= base_url('/admin/media/delete/') ?>";
@@ -347,7 +375,7 @@ function hasSelectedChild($node, $selectedId) {
         });
 
         //Changement de l'image par défaut
-        $('.medias').on('click', '.media-default-img', function(e) {
+        $('.medias').on('click', '.media-default-img', function (e) {
             // Empêche l'action par défaut de l'événement
             e.preventDefault();
 
@@ -382,6 +410,45 @@ function hasSelectedChild($node, $selectedId) {
                 // Et on cache le badge de couronne pour l'ancienne image par défaut
                 old_default.find('.badge.bg-warning').addClass('d-none');
             }
+        });
+
+        var baseUrl = "<?= base_url(); ?>";
+        var dataTable = $('#tableComments').DataTable({
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "pageLength": 10,
+            "language": {
+                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+            },
+            "ajax": {
+                "url": "<?= base_url('/admin/item/searchdatatable'); ?>",
+                "type": "POST",
+                "data" : { 'model' : 'CommentModel', 'filter':'item','filter_value':'<?= isset($item['id']) ?? $item['id']; ?>'}
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "id_comment_parent"},
+                {"data" : 'content'},
+                {"data":'username'},
+                {"data" : 'updated_at'},
+                {
+                    data : 'id',
+                    sortable : false,
+                    render : function(data) {
+                        return `<a id="${data}" href="<?= base_url('/admin/comment/');?>${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
+                    }
+                },
+                {
+                    data : 'id',
+                    sortable : false,
+                    render : function(data, type, row) {
+                        return (row.deleted_at === null ?
+                            `<a title="Désactiver le commentaire" href="/admin/comment/deactivatecomment/${row.id}"><i class="fa-solid fa-xl
+                            fa-toggle-on text-success"></i></a>`: `<a title="Activer" href="/admin/comment/activatecomment/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
+                    }
+                }
+            ]
         });
     });
 </script>

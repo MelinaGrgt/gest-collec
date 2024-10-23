@@ -37,6 +37,11 @@ class ItemModel extends Model
         return $this->where('slug', $slug)->first();
     }
 
+    public function getSlugById($id_item) {
+        return $this->select('slug')->where('id', $id_item)->get()->getRow()->slug;
+    }
+
+
     /**
      * Récupère un item complet en utilisant son slug.
      *

@@ -67,25 +67,25 @@
                     <h5 class="modal-title">Modifier License</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="/admin/item/updatelicense">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="">
-                    <label class="form-label" for="nom">Modifier le nom</label>
-                   <input type="text" name="name" id="nom" class="form-control">
-                    <label class="form-label">Licence parente</label>
-                    <select class="form-select" name="id_license_parent">
-                        <option value="" selected>Aucun</option>
-                        <?php foreach ($all_licenses as $license) { ?>
-                            <option value="<?= $license['id']; ?>">
-                                <?= $license['name']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary" value="Valider">Sauvegarder les modifications</button>
-                </div>
+                <form method="POST" action="<?=base_url('/admin/item/updatelicense')?>">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="">
+                        <label class="form-label" for="nom">Modifier le nom</label>
+                        <input type="text" name="name" id="nom" class="form-control">
+                        <label class="form-label">Licence parente</label>
+                        <select class="form-select" name="id_license_parent">
+                            <option value="" selected>Aucun</option>
+                            <?php foreach ($all_licenses as $license) { ?>
+                                <option value="<?= $license['id']; ?>">
+                                    <?= $license['name']; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary" value="Valider">Sauvegarder les modifications</button>
+                    </div>
                 </form>
             </div>
         </div>

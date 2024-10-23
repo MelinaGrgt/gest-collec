@@ -53,15 +53,17 @@ class Item extends BaseController
                 } else {
                     $possede = false;
                 }
-                $comments = model('CommentModel')->getAllCommentsByIdItemAndUserName($item['id']);
+                $comments = model('CommentModel')->getAllCommentsByItem($item['id']);
                 $AVGrating = model('RatingModel')->getAvRatingByItem($item['id']);
-                $totalcomments =model('CommentModel')->getTotalCommentsByIdItem($item['id']);
+                $totalcomments = model('CommentModel')->getTotalCommentsByIdItem($item['id']);
+
             } else {
                 // L'objet n'existe pas
                 $item = null;
                 $possede = false;
+                $comments = null;
             }
-            return $this->view('item/item',['item' => $item, 'possede' => $possede, 'comments' => $comments,'AVGrating'=>$AVGrating,'totalcomments'=>$totalcomments ]);
+            return $this->view('item/item',['item' => $item, 'possede' => $possede, 'comments' => $comments,'AVGrating'=>$AVGrating, 'totalcomments'=>$totalcomments]);
         }
     }
 
@@ -83,43 +85,8 @@ class Item extends BaseController
     }
 
 
-    public function postcreatecomment($id_item = null, $id_user=null){
-        //recupère les données du formulaire
-        $data = $this->request->getPost();
-        //
-        if (!isset($this->session->user)) {
-            return $this->fail('Utilisateur non authentifié');
-        }
-        $id_user = $this->session->user->id;
-        //mise en forme des données pour insertion dans la table rating
-        $notation=[
-            'id_user' => $id_user,
-            'id_item' => $data['id_item'],
-            'rating' => $data['rating'],
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        //mise en forme des données pour l'insertion dans la table comment
-        $comment=[
-            'id_user' => $id_user,
-            'entity_id' => $data['id_item'],
-            'entity_type' => $data['entity_type'],
-            'content' => $data['content'],
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        $rating = model('RatingModel')->insert($notation);
-        $com = model('CommentModel')->insert($comment);
-        return $this->redirect('/item/');
-    }
 
-    public function posteditcomment(){
-        $data = $this->request->getPost();
 
-        $comment=[
-        'id' => $data['id_comment'],
-        'content' => $data['content'],
-        'updated_at' => date('Y-m-d H:i:s')
-        ];
-        $com = model('CommentModel')->getupdate($comment);
-        return $this->redirect('/item/');
-    }
+
+
 }
