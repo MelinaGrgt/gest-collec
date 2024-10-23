@@ -64,7 +64,6 @@
                          <?php if($AVGrating==null) { ?>
                              Pas encore noté <br>
                          <?php } else { renderStars($AVGrating);}?>
-                         <a href="TODO">Voir les avis</a>
                      </div>
                  <div>
             </div>
@@ -146,18 +145,19 @@
                             </div>
                         </div>
                         <!--Affichage des commentaires-->
-                        <div class="border border-dark-subtle border-1 rounded-2 mt-3">
+                        <div class="border border-dark-subtle border-1 rounded-2 mt-3" id="commentaires-section">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="col-6" id="avis-section">
                                     <h5 id="C10">Avis</h5>
                                     <div>
+                                        <!--Affichage de la note et du nombre de commentaires-->
                                         <?php if($AVGrating==null) { ?>
                                             Pas encore noté |
                                         <?php } else { renderStars($AVGrating);}?>
-                                        <?=$totalcomments?> avis</div>
+                                        <?=$totalcomments?> avis.</div>
                                 </div>
                                 <div class="col-3 d-flex justify-content-end">
-                                    <!--BOUTON POUR OUVRIR LA MODALE DE COMMENTAIRE-->
+                                    <!--BOUTON POUR OUVRIR LA MODAL pour laisser un COMMENTAIRE-->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Laisser un avis
                                     </button>
@@ -171,17 +171,13 @@
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Laisser un avis sur <?=ucfirst($item['item_name'])?></h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <!--FORMULAIRE POUR LES COMMENTAIRES ET LA NOTATION-->
-                                            <form action="item/createcomment" method="post">
+                                            <!--FORMULAIRE POUR LES COMMENTAIRES-->
+                                            <form action="<?= base_url('/comment/createitemcomment');?>" method="post">
                                             <div class="modal-body">
-                                                <!-- la notation-->
-                                                <label for="notation">Notation</label>
-                                                <input id="notation" type="number" name="rating" min="0" max="5" step="1" required>
                                                 <!--Le commentaire-->
-                                                <textarea class="form-control mt-3" placeholder="Entrez votre avis (max 250 caractères)" id="avis" name="content" size="250" maxlength="250" required></textarea>
+                                                <textarea class="form-control mt-3" placeholder="Entrez votre avis (max 250 caractères)" id="avis" name="content" size="250" maxlength="250" minlength="3" required></textarea>
                                                 <!--Champs cachés pour envoyer l'id_item et l'entity_type-->
-                                                <input type="hidden" name="id_item" value="<?=$item['id']?>">
-                                                <input type="hidden" name="entity_type" value="item">
+                                                <input type="hidden" name="entity_id" value="<?= $item['id']; ?>">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -193,7 +189,7 @@
                                     </div>
                                 </div>
                                 <!--fin de la modal-->
-                                    <!-- si l'utilisateur n'est pas connecter ouvre une modal pour l'inviter à se connecter-->
+                                    <!-- si l'utilisateur n'est pas connecté ouvre une modal pour l'inviter à se connecter-->
                                 <?php } else {?>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
@@ -212,7 +208,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--fin de la modale-->
+                                    <!--fin de la modal-->
                                 <?php }?>
                             </div>
                             <!--AFFICHAGE DES COMMENTAIRES-->
@@ -225,65 +221,69 @@
                                                 <span>
                                                     <?php if(isset($user)){
                                                         if($user->id == $C['id_user']){ ?>
-                                                            <!--Bouton pour editer son propre commentaire et ouvrir la modal-->
-                                                            <i class="fa-solid fa-pen text-primary" type="button" data-bs-toggle="modal" data-bs-target="#editcomment" title="Éditer mon commentaire"></i>
-                                                            <!--Modale d'edition de son commentaire-->
-                                                            <div class="modal fade" id="editcomment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editer mon commentaire sur <?=ucfirst($item['item_name'])?></h1>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <form action="item/editcomment" method="post">
-                                                                            <div class="modal-body">
-                                                                                <!--Le commentaire-->
-                                                                                <textarea class="form-control mt-3" placeholder="Entrez votre avis (max 250 caractères)" id="avis" name="content" size="250" maxlength="250" required><?= $C['content']?></textarea>
-                                                                                <!--Champs cachés pour envoyer l'id du commentaire -->
-                                                                                <input type="hidden" name="id_comment" value="<?=$C['id']?>">
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                                            <button type="submit" class="btn btn-primary">Editer mon avis</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--fin de la modale pour editer son propre commentaire-->
+                                                            <span>J'aime <?=$C["nb_likes"]?></span>
                                                          <?php } else
                                                          {?>
                                                             <!--Bouton pour répondre/commenter le commentaire de quelqu'un d'autre -->
                                                              <i class="fa-regular fa-comment-dots text-primary" type="button" data-bs-toggle="modal" data-bs-target="#commentcomment" title="Commenter"></i>
+                                                             <!-- Modal ouverte par le bouton-->
+                                                             <div class="modal fade" id="commentcomment" tabindex="-1" aria-labelledby="commentcomment" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="commentcomment">Répondre à <?=ucfirst($C['username'])?></h1>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <!--FORMULAIRE POUR LES COMMENTAIRES-->
+                                                                        <form action="<?= base_url('/comment/createitemcomment');?>" method="post">
+                                                                            <div class="modal-body">
+                                                                            <!--Le commentaire-->
+                                                                                <textarea class="form-control mt-3" placeholder="Entrez votre avis (max 250 caractères)" id="avis" name="content" size="250" maxlength="250" minlength="3" required></textarea>
+                                                                                 <!--Champs cachés pour envoyer l'id_item et l'entity_type-->
+                                                                                <input type="hidden" name="entity_id" value="<?= $item['id']; ?>">
+                                                                                <input type="hidden" name="id_comment_parent" value="<?= $C['id']; ?>">
+                                                                            </div>
+                                                                                <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                                                <button type="submit" class="btn btn-primary">Envoyer mon avis</button>
+                                                                                </div>
+                                                                             </form>
+                                                                             <!--Fin du formulaire-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                <!--fin de la modal-->
 
-                                                             <i class="fa-solid fa-thumbs-up text-primary" type="button" data-bs-toggle="modal" data-item-id="<?= $C['id'] ?>" title="J'aime"></i><span id="like-count"> J'aime 0</span>
 
+                                                                <!-- bouton pour les likes-->
+
+                                                               <i class="fa-solid fa-thumbs-up text-primary"  id="like-button" type="button" data-bs-toggle="modal" data-item-id="<?= $C['id'] ?>" title="J'aime"> id="like-button"</i>
+
+
+                                                             <!--Affichage du nombre de like par commentaire-->
+                                                             <span>| J'aime <?=$C["nb_likes"]?></span>
                                                           <?php }
                                                     } ?>
-
                                                 </span>
                                             </div>
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between ">
                                                 <span>
-                                                    <b><i class="fa-solid fa-user text-primary-emphasis me-2"></i><?=ucfirst($C['username'])?></b>
-                                                    <?php if($C['rating']==null){?>
-                                                    Pas noté
-                                                    <?php } else{?> Note : <?=$C['rating']?>/5.
-                                                    <?php } ?>
+                                                   <?php if($C['profile_file_path'] == null){?>
+                                                       <b><i class="fa-solid fa-user text-primary-emphasis me-2"></i><?=ucfirst($C['username'])?></b>
+                                                 <?php } else { ?>
+                                                    <img src="<?= base_url($C['profile_file_path']) ?>" alt="Avatar" style="max-width: 25px; height: auto;"><b></i><?=ucfirst($C['username'])?></b>
+                                                   <?php } ?>
                                                 </span>
                                                 <span>
-                                                    <?php if(isset($C['updated_at'])){ ?>
-                                                        Avis édité le : <?php $date = new DateTime($C['updated_at']);
-                                                        // Afficher la date au format jour-mois-année
-                                                        echo $date->format('d-m-Y');
-                                                    } else {?>
-                                                    Avis posté le :
-                                                        <?php
-                                                        // Créer un objet DateTime à partir de la date au format année-mois-jour
-                                                        $date = new DateTime($C['created_at']);
-                                                        // Afficher la date au format jour-mois-année
-                                                        echo $date->format('d-m-Y');
-                                                    }?>
+                                                    <small>
+                                                        Avis posté le :
+                                                         <?php
+                                                            // Créer un objet DateTime à partir de la date au format année-mois-jour
+                                                            $date = new DateTime($C['date']);
+                                                            // Afficher la date au format jour-mois-année
+                                                            echo $date->format('d-m-Y');
+                                                        ?>
+                                                    </small>
                                                 </span>
                                             </div>
                                         </div>
@@ -398,7 +398,15 @@
         }
     } );
     splide.mount();
+
+
 </script>
+
+
+
+
+
+
 
 <!--RECUPERE LES DONNEES DE $ITEM POUR LES AFFFICHER LORSQUE L'ON CLICK SUR LE POINT D'INTERROGATION-->
 <?php if (isset($user) && $user->isAdmin()) : ?>
@@ -434,18 +442,18 @@
 <?php
 
 function renderStars($rating) {
-    $fullStars = floor($rating);
-    $halfStar = ($rating - $fullStars) >= 0.5 ? 1 : 0;
-    $emptyStars = 5 - ($fullStars + $halfStar);
-
+    $fullStars = floor($rating);// Étoiles pleines
+    $halfStar = ($rating - $fullStars) >= 0.5 ? 1 : 0; // Demi-étoile si nécessaire
+    $emptyStars = 5 - ($fullStars + $halfStar); // Étoiles vides
+        // Afficher les étoiles pleines
     for ($i = 0; $i < $fullStars; $i++) {
         echo '<i class="fa fa-star text-warning"></i>';
     }
-
+        // Afficher la demi-étoile si applicable
     if ($halfStar) {
         echo '<i class="fa fa-star-half-alt text-warning"></i>';
     }
-
+        // Afficher les étoiles vides
     for ($i = 0; $i < $emptyStars; $i++) {
         echo '<i class="fa-regular fa-star text-body-tertiary"></i>';
     }

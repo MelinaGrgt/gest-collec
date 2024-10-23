@@ -26,8 +26,4 @@ class Dashboard extends BaseController
         $this->redirect("/admin/dashboard");
     }
 
-    public function gettest2() {
-        $um = Model("App\Models\UserModel");
-        print_r($um->countUserByPermission());
-    }
 }

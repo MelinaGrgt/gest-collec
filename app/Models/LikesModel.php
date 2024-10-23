@@ -10,9 +10,9 @@ class LikesModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_user','id_comment'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -20,12 +20,6 @@ class LikesModel extends Model
     protected array $casts = [];
     protected array $castHandlers = [];
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -46,22 +40,17 @@ class LikesModel extends Model
 
 
     // Ajouter un like
-    public function addLike($id_user, $id_item) {
-        return $this->insert(['id_user' => $id_user, 'id_item' => $id_item]);
+    public function addLike($id_user, $id_comment) {
+        return $this->insert(['id_user' => $id_user, 'id_item' => $id_comment]);
     }
 
     // Retirer un like
-    public function removeLike($id_user, $id_item) {
-        return $this->where('id_user', $id_user)->where('id_item', $id_item)->delete();
+    public function removeLike($id_user, $id_comment) {
+        return $this->where('id_user', $id_user)->where('id_item', $id_comment)->delete();
     }
 
     // Vérifier si l'utilisateur a déjà aimé
-    public function hasLiked($id_user, $id_item) {
-        return $this->where('id_user', $id_user)->where('id_item', $id_item)->countAllResults() > 0;
-    }
-
-    // Obtenir le nombre de likes d'un item
-    public function getLikesCount($id_item) {
-        return $this->where('id_item', $id_item)->countAllResults();
+    public function hasLiked($id_user, $id_comment) {
+        return $this->where('id_user', $id_user)->where('id_item', $id_comment)->countAllResults() > 0;
     }
 }

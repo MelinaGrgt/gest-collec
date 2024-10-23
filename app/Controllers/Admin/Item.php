@@ -16,13 +16,15 @@ class Item extends BaseController
             $types = model('ItemTypeModel')->getAllTypes();
             $licenses = model('ItemLicenseModel')->getAllLicenses();
             $brands = model('ItemBrandModel')->getAllBrands();
+
             //Si mon ID est égale à "new" je suis en création
             if ($id == "new") {
                 return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands], true);
             }
             $item = model('ItemModel')->getItem($id);
+            $comment = model('CommentModel')->getCommentByEntityId($id);
             if ($item) {
-                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'item' => $item, 'medias' => model('MediaModel')->getMediaByEntityIdAndType($id,'item'), 'genre_item' => model('ItemGenreItemModel')->getAllItemGenreByIdItem($id)], true);
+                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'item' => $item, 'medias' => model('MediaModel')->getMediaByEntityIdAndType($id,'item'), 'genre_item' => model('ItemGenreItemModel')->getAllItemGenreByIdItem($id), 'comment'=>$comment], true);
             } else {
                 $this->error('L\'ID n\'est pas valide');
                 $this->redirect('/admin/item');
@@ -285,6 +287,15 @@ class Item extends BaseController
     }
 
 
+    //GESTION DES COMMENTAIRES
+    public function getcomment(){
+        $this->title="Gestion des Commentaires";
+        $this->addBreadcrumb('Objets','/admin/item');
+        $this->addBreadcrumb('Commentaires','');
+        return $this->view('admin/item/comment',[], true);
+    }
+
+
     //GESTION DES GENRES
     public function getgenre(){
         $this->title="Gestion des Genres";
@@ -391,25 +402,30 @@ class Item extends BaseController
         $orderDirection = $this->request->getPost('order')[0]['dir'] ?? 'asc';
         $orderColumnName = $this->request->getPost('columns')[$orderColumnIndex]['data'] ?? 'id';
 
+        $custom_filter = $this->request->getPost('filter') ?? null;
+        $custom_filter_value = $this->request->getPost('filter_value') ?? null;
+
+
         // Obtenez les données triées et filtrées
-        $data = $model->getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection);
+        $data = $model->getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection,$custom_filter,$custom_filter_value);
 
         // Obtenez le nombre total de lignes sans filtre
-        $totalRecords = $model->getTotal();
+        $totalRecords = $model->getTotal($custom_filter,$custom_filter_value);
 
         // Obtenez le nombre total de lignes filtrées pour la recherche
-        $filteredRecords = $model->getFiltered($searchValue);
+        $filteredRecords = $model->getFiltered($searchValue,$custom_filter,$custom_filter_value);
 
+        // Vérifiez si des données sont présentes
+        if (empty($data)) {
+            // Si aucune donnée n'est trouvée, assurez-vous de renvoyer un tableau vide
+            $data = [];
+        }
         $result = [
-            'draw'            => $draw,
-            'recordsTotal'    => $totalRecords,
-            'recordsFiltered' => $filteredRecords,
-            'data'            => $data,
+            'draw'            => intval($draw),
+            'recordsTotal'    => intval($totalRecords),
+            'recordsFiltered' => intval($filteredRecords),
+            'data'            => $data, // Retourne un tableau vide s'il n'y a pas de résultats
         ];
         return $this->response->setJSON($result);
-    }
-
-    public function gettest(){
-        return $this->view('dev-test');
     }
 }

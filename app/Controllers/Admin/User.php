@@ -17,9 +17,10 @@ class User extends BaseController
             if ($id == "new") {
                 return $this->view("/admin/user/user",["permissions" => $permissions], true);
             }
+            $comment=model("CommentModel")->getCommentByIdUser($id);
             $utilisateur = $um->getUserById($id);
             if ($utilisateur) {
-                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions ], true);
+                return $this->view("/admin/user/user", ["utilisateur" => $utilisateur, "permissions" => $permissions, 'comment'=>$comment ], true);
             } else {
                 $this->error("L'ID de l'utilisateur n'existe pas");
                 $this->redirect("/admin/user");
