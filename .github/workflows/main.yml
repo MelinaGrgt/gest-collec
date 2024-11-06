@@ -17,7 +17,7 @@ jobs:
 
     - name: Modify .env
       run: |
-          sed -i 's/ENVIRONMENT = developement/ENVIRONMENT = production/g' .env
+          sed -i 's/ENVIRONMENT = development/ENVIRONMENT = production/g' .env
           cat .env
 
     - name: Modify App.php
@@ -76,7 +76,7 @@ jobs:
         server: ${{ secrets.FTP_SERVEUR }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{secrets.URL_PREFIX }}
+        server-dir: ${{secrets.URL_PREFIX }}/
 
     - name: Wait for files to deploy
       run: sleep 60
