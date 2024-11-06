@@ -182,6 +182,11 @@ class UserModel extends Model
 
         return $builder->countAllResults();
     }
-
-
+    public function getIdUserByUsername($username) {
+        $row =  $this->select('id')->where('username', $username)->get()->getRow();
+        if ($row) {
+            return $row->id;
+        }
+        return null;
+    }
 }
