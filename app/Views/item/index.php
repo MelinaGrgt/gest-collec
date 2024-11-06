@@ -65,6 +65,12 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 // Si le contrôleur est "collection", afficher que les objets appartiennent à la collection de l'utilisateur
                 if ($controller == "collection") {
                     echo "de la collection de " . ucfirst($data['username']);
+                    if ($user->username != $data['username']) { ?>
+                        <a href="<?= base_url("/user/sendmessage/" . $data['username']); ?>" title="Envoyer un message privé">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <?php
+                    }
                 }
                 // Vérification et affichage des filtres appliqués
                 if ($data) {
@@ -123,7 +129,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                                     $img_src = !empty($item['default_img_file_path']) ? base_url($item['default_img_file_path']) : base_url('assets/brand/logo-bleu.svg');
                                     ?>
                                     <a href="<?= base_url('item/' . $item['slug']) ?>">
-                                        <img src="<?= $img_src; ?>" class="card-img-top" alt="...">
+                                        <img src="<?= $img_src ?>" class="card-img-top" alt="<?= $item['name']; ?>">
                                     </a>
                                     <!--AFFICHAGE DU NOM DE L'OBJET-->
                                     <div class="card-body">

@@ -199,6 +199,19 @@ abstract class BaseController extends Controller
         if ($flashData) {
             $datas = array_merge($datas, $flashData);
         }
+
+        $filePath = ROOTPATH . 'version.json'; // chemin du fichier version.json
+        if (file_exists($filePath)) {
+            $versionInfo = json_decode(file_get_contents($filePath), true);
+        } else {
+            //Valeurs par defaut si le fichier n'existe pas
+            $versionInfo = [
+                'version'=> 'unknown',
+                'branch'=> 'unknown',
+                'commit'=> 'unknown',
+                'time'=> 'unknown',
+            ];
+        }
         return view(
                 $template_dir . 'head',
                 [
@@ -209,7 +222,8 @@ abstract class BaseController extends Controller
                     'localmenu' => $this->menu,
                     'user' => ($this->session->user ?? null),
                     'menus' => $this->menus($admin),
-                    'title' => sprintf('%s : %s', $this->title, $this->title_prefix)
+                    'title' => sprintf('%s : %s', $this->title, $this->title_prefix),
+                    'version_info' => $versionInfo
                 ]
             )
             . (($vue !== null) ? view($vue, $datas) : '')
