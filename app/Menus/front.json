@@ -10,5 +10,29 @@
         "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
       }
     }
+  },
+  "collection": {
+    "title" : "Collection",
+    "url" : "/collection",
+    "icon": "<i class=\"nav-icon fa-solid fa-boxes-stacked\"></i>",
+    "subs" : {
+      "item": {
+        "title" : "Collection",
+        "url" : "/collection",
+        "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
+      }
+    }
+  },
+  "message" : {
+    "title" : "Messagerie",
+    "url" : "/chat",
+    "icon" : "<i class=\"nav-icon fa-solid fa-envelopes-bulk\"></i>",
+    "subs" : {
+      "chat" : {
+        "title": "Chat",
+        "url" : "/chat",
+        "icon" : "<i></i>"
+      }
+    }
   }
 }

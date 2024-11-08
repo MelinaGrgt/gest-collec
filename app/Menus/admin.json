@@ -23,27 +23,27 @@
       "brand" : {
         "title" : "Marques",
         "url" : "/admin/item/brand",
-        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
       "genre" : {
-        "title" : "Genre",
+        "title" : "Genres",
         "url" : "/admin/item/genre",
-        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
       "license" : {
         "title" : "Licences",
         "url" : "/admin/item/license",
-        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
-      "comment" : {
+      "license" : {
         "title" : "Commentaires",
         "url" : "/admin/item/comment",
-        "icon": "<i class=\"nav-icon fa-regular fa-comment\"></i>"
+        "icon" : "<i class=\"nav-icon fa-solid fa-comment\"></i>"
       }
     }
   },
-  "Médias": {
-    "title": "Médias",
+  "media": {
+    "title": "Medias",
     "url": "/admin/media",
     "icon": "<i class=\"nav-icon fa-solid fa-image\"></i>"
   },
@@ -55,12 +55,12 @@
     "class": "",
     "subs": {
       "user": {
-        "title": "Utilisateurs",
+        "title": "Utilisateur",
         "url": "/admin/user",
         "icon": "<i class=\"nav-icon fas fa-users-gear\"></i>"
       },
       "user-permission": {
-        "title": "Rôles",
+        "title": "Rôle",
         "url": "/admin/userpermission",
         "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
       }
