@@ -1,8 +1,8 @@
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand">
-            <img src="/assets/brand/logo-blanc.svg" class="sidebar-brand-full" _width="88" height="32" alt="Gest-Collect" />
-            <img src="/assets/brand/logo-blanc.svg" class="sidebar-brand-narrow" _width="32" height="32" alt="Gest-Collect" />
+            <img src="<?=base_url('/assets/brand/logo-blanc.svg')?>" class="sidebar-brand-full" _width="88" height="32" alt="Gest-Collect" />
+            <img src="<?=base_url('/assets/brand/logo-blanc.svg')?>" class="sidebar-brand-narrow" _width="32" height="32" alt="Gest-Collect" />
             Gest-Collect
         </div>
         <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
@@ -41,9 +41,9 @@
             <?php }} ?>
 
         <li class="nav-item mt-auto">
-            <a class="nav-link" href="/login/logout">
+            <a class="nav-link" href="<?=base_url('/login/logout')?>">
                 <svg class="nav-icon me-2">
-                    <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                    <use xlink:href="<?=base_url('/vendors/@coreui/icons/svg/free.svg#cil-account-logout')?>"></use>
                 </svg> Déconnexion</a>
         </li>
     </ul>
