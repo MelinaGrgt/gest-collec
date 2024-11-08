@@ -203,7 +203,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                        <a href="/login"><button type="button" class="btn btn-primary">Connexion / Inscription</button></a>
+                                                        <a href="<?=base_url('/login')?>"><button type="button" class="btn btn-primary">Connexion / Inscription</button></a>
                                                     </div>
                                             </div>
                                         </div>
@@ -410,7 +410,7 @@
 
 <!--RECUPERE LES DONNEES DE $ITEM POUR LES AFFFICHER LORSQUE L'ON CLICK SUR LE POINT D'INTERROGATION-->
 <?php if (isset($user) && $user->isAdmin()) : ?>
-    <a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="#offcanvasItem" role="button" aria-controls="offcanvasExample">
+    <a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="<?=base_url('#offcanvasItem')?>" role="button" aria-controls="offcanvasExample">
         <i class="fa-solid fa-circle-question fa-2xl"></i>
     </a>
 

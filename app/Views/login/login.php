@@ -70,7 +70,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-1">
-                <img src="/assets/brand/logo-bleu.svg">
+                <img src="<?= Base_url('/assets/brand/logo-bleu.svg')?>">
             </div>
         </div>
         <?php if (isset($error)) { ?>
@@ -89,11 +89,11 @@
                         <div class="card-body">
                             <h1>Connexion</h1>
                             <p class="text-body-secondary">Connecter vous à votre compte</p>
-                            <form action="/login" method="POST">
+                            <form action="<?=Base_url('/login')?>" method="POST">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                       <svg class="icon">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                        <use xlink:href="<?=base_url('vendors/@coreui/icons/svg/free.svg#cil-user')?>"></use>
                                       </svg>
                                     </span>
                                     <input class="form-control" type="mail" placeholder="Adresse Mail" name="email">
@@ -101,7 +101,7 @@
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">
                                       <svg class="icon">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                                        <use xlink:href="<?=Base_url('vendors/@coreui/icons/svg/free.svg#cil-lock-locked')?>"></use>
                                       </svg>
                                     </span>
                                     <input class="form-control" type="password" placeholder="Mot de passe" name="password">
@@ -123,7 +123,7 @@
                                 <h2>Rejoignez-nous !</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
-                                <a class="btn btn-lg btn-outline-light mt-3" href="/Login/Register" >Créer un compte</a>
+                                <a class="btn btn-lg btn-outline-light mt-3" href="<?=Base_url('/Login/Register')?>">Créer un compte</a>
                             </div>
                         </div>
                     </div>

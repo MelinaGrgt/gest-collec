@@ -85,11 +85,11 @@
                     <div class="card-body p-4">
                         <h1>S'inscrire</h1>
                         <p class="text-body-secondary">Créer votre compte</p>
-                        <form action="/Login/Register" method="POST">
+                        <form action="<?=Base_url('/Login/Register')?>" method="POST">
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg class="icon">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                        <use xlink:href="<?=Base_url('vendors/@coreui/icons/svg/free.svg#cil-user')?>"></use>
                                     </svg>
                                 </span>
                                 <input class="form-control" type="text" placeholder="Pseudo" name="username" required>
@@ -97,7 +97,7 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg class="icon">
-                                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                                      <use xlink:href="<?=base_url('vendors/@coreui/icons/svg/free.svg#cil-envelope-open')?>"></use>
                                     </svg>
                                 </span>
                                 <input class="form-control" type="email" placeholder="Email" name="email" required>
@@ -105,7 +105,7 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <svg class="icon">
-                                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                                      <use xlink:href="<?=base_url('vendors/@coreui/icons/svg/free.svg#cil-lock-locked')?>"></use>
                                     </svg>
                                 </span>
                                 <input class="form-control" type="password" placeholder="Mot de passe" name="password" required>

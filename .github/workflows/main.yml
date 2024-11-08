@@ -19,7 +19,7 @@ jobs:
 
       - name: Modify .env
         run: |
-          sed -i 's/ENVIRONMENT = development/ENVIRONMENT = production/g' .env
+          sed -i 's/ENVIRONMENT = development/ENVIRONMENT = development/g' .env
           cat .env
 
       - name: Modify App.php
@@ -71,6 +71,15 @@ jobs:
           echo '<IfModule !mod_rewrite.c>' >> public/.htaccess
           echo '    ErrorDocument 404 index.php' >> public/.htaccess
           echo '</IfModule>' >> public/.htaccess
+          
+                - name: Generate version file
+        run: |
+          VERSION=$(git describe --tags --abbrev=0)
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          COMMIT=$(git rev-parse --short HEAD)
+          TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+          echo "{ \"version\": \"$VERSION\", \"branch\": \"$BRANCH\", \"commit\": \"$COMMIT\", \"timestamp\": \"$TIMESTAMP\" }" > version.json
+          cat version.json  # Affiche le contenu de version.json pour vérifier
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -79,12 +88,3 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.URL_PREFIX }}/
-
-      - name: Generate version file
-        run: |
-          VERSION=$(git describe --tags --abbrev=0)
-          BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          COMMIT=$(git rev-parse --short HEAD)
-          TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
-          echo "{ \"version\": \"$VERSION\", \"branch\": \"$BRANCH\", \"commit\": \"$COMMIT\", \"timestamp\": \"$TIMESTAMP\" }" > version.json
-          cat version.json  # Affiche le contenu de version.json pour vérifier

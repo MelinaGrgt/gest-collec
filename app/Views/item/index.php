@@ -276,7 +276,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
 
 <!-- START: OFFCANVAS -->
 <?php if (isset($user) && $user->isAdmin()) : ?>
-    <a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="#offcanvasItem" role="button" aria-controls="offcanvasExample">
+    <a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="<?=base_url('#offcanvasItem')?>" role="button" aria-controls="offcanvasExample">
         <i class="fa-solid fa-circle-question fa-2xl"></i>
     </a>
     <div class="offcanvas offcanvas-end" style="width:800px" data-bs-backdrop="static" tabindex="-1" id="offcanvasItem" aria-labelledby="offcanvasExampleLabel">
