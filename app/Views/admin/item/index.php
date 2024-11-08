@@ -29,7 +29,7 @@
             "serverSide": true,
             "pageLength": 10,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json"); ?>',
             },
             "ajax": {
                 "url": "<?= base_url('/admin/item/searchdatatable'); ?>",
@@ -45,7 +45,7 @@
                     render : function(data, type, row) {
                         return (row.active == 1 ?
                             `<a title="Désactiver" href="<?=base_url('/admin/item/deactivate/')?>${row.id}"><i class="fa-solid fa-xl
-                            fa-toggle-on text-success"></i></a>`: `<a title="Activer"href="<?=base_url('/admin/item/activate/')?>${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
+                            fa-toggle-on text-success"></i></a>`: `<a title="Activer" href="<?=base_url('/admin/item/activate/')?>${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
 
                     }
                 },
