@@ -15,7 +15,7 @@
             if (!isset($menu['subs'])) { ?>
                 <li class="nav-item <?= ($localmenu === $km ? 'active' : '') ?>"
                     id="menu_<?= $km ?>">
-                    <a class="nav-link" href="<?= base_ur($menu['url'])?>">
+                    <a class="nav-link" href="<?= base_url($menu['url'])?>">
                         <?php if (isset($menu['icon'])) { echo $menu['icon']; }
                         else { ?><svg class="nav-icon"><span class="bullet bullet-dot"></svg><?php } ?>
                         <?= $menu['title'] ?>
