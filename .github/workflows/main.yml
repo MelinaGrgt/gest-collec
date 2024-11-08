@@ -72,7 +72,7 @@ jobs:
           echo '    ErrorDocument 404 index.php' >> public/.htaccess
           echo '</IfModule>' >> public/.htaccess
           
-                - name: Generate version file
+      - name: Generate version file
         run: |
           VERSION=$(git describe --tags --abbrev=0)
           BRANCH=$(git rev-parse --abbrev-ref HEAD)
