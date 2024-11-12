@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col">
         <!--Début du formulaire-->
-        <form action="<?= isset($utilisateur) ? "/admin/user/update" : "/admin/user/create" ?>" method="POST"  enctype="multipart/form-data">
+        <form action="<?= isset($utilisateur) ? base_url('/admin/user/update') : base_url('/admin/user/create')?>" method="POST"  enctype="multipart/form-data">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
@@ -124,8 +124,8 @@
                     sortable : false,
                     render : function(data, type, row) {
                         return (row.deleted_at === null ?
-                            `<a title="Désactiver le commentaire" href="/admin/comment/deactivatecomment/${row.id}"><i class="fa-solid fa-xl
-                            fa-toggle-on text-success"></i></a>`: `<a title="Activer" href="/admin/comment/activatecomment/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
+                            `<a title="Désactiver le commentaire" href="<?=base_url('/admin/comment/deactivatecomment/');?>${row.id}"><i class="fa-solid fa-xl
+                            fa-toggle-on text-success"></i></a>`: `<a title="Activer" href="<?=base_url('/admin/comment/activatecomment/')?>${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
                     }
                 }
             ]
