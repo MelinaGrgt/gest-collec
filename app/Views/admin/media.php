@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img class="img-thumbnail" src="${media.file_path}" alt="media-image">
+                        <img class="img-thumbnail" src="<?=base_url('${media.file_path}')?>" alt="media-image">
                     </div>
                 `;
                             row.append(mediaElement);
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img class="img-thumbnail" src="${media.file_path}" alt="media-image">
+                        <img class="img-thumbnail" src="<?=base_url('${media.file_path}')?>" alt="media-image">
                     </div>
                 `;
                             row.append(mediaElement);

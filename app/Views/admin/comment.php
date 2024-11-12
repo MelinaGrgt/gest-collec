@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
                 Commentaire posté par : <strong><?= ucfirst($comment['username']) ?></strong> le <?= $comment['updated_at'] ?>
-                <form method="post" action="/admin/comment/updatecomment">
+                <form method="post" action="<?=base_url('/admin/comment/updatecomment')?>">
                         <textarea name="content" class="form-control mt-3"><?=$comment['content']?></textarea>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary btn-sm mt-3 ">Valider les modifications</button>
