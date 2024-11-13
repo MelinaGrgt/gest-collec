@@ -116,7 +116,7 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a id="${data}" href="<?= base_url('/admin/comment/'); ?>${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
+                        return `<a id="${data}" href="${baseUrl}/admin/comment/${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
                     }
                 },
                 {
@@ -124,10 +124,10 @@
                     sortable : false,
                     render : function(data, type, row) {
                         return (row.deleted_at === null ?
-                            `<a title="Désactiver le commentaire" href="<?=base_url('/admin/comment/deactivatecomment/');?>${row.id}"><i class="fa-solid fa-xl fa-toggle-on text-success"></i></a>`
+                            `<a title="Désactiver le commentaire" href="${baseUrl}/admin/comment/deactivatecomment/${row.id}"><i class="fa-solid fa-xl fa-toggle-on text-success"></i></a>`
 
 
-                            : `<a title="Activer" href="<?=base_url('/admin/comment/activatecomment/')?>${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
+                            : `<a title="Activer" href="${baseUrl}/admin/comment/activatecomment/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
                     }
                 }
             ]

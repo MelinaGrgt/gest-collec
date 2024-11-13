@@ -6,42 +6,42 @@
     "class": "main-menu-accueil"
   },
   "items": {
-    "title" : "Objets",
-    "url" : "/admin/item",
+    "title": "Objets",
+    "url": "/admin/item",
     "icon": "<i class=\"nav-icon fa-solid fa-boxes-stacked\"></i>",
-    "subs" : {
+    "subs": {
       "item": {
-        "title" : "Objets",
-        "url" : "/admin/item",
+        "title": "Objets",
+        "url": "/admin/item",
         "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
       },
-      "type" : {
-        "title" : "Types",
-        "url" : "/admin/item/type",
+      "type": {
+        "title": "Types",
+        "url": "/admin/item/type",
         "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
-      "brand" : {
-        "title" : "Marques",
-        "url" : "/admin/item/brand",
-        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      "brand": {
+        "title": "Marques",
+        "url": "/admin/item/brand",
+        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
-      "genre" : {
-        "title" : "Genres",
-        "url" : "/admin/item/genre",
-        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      "genre": {
+        "title": "Genres",
+        "url": "/admin/item/genre",
+        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       },
-      "license" : {
-        "title" : "Licences",
-        "url" : "/admin/item/license",
-        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
-      },
-      "license" : {
-        "title" : "Commentaires",
-        "url" : "/admin/item/comment",
-        "icon" : "<i class=\"nav-icon fa-solid fa-comment\"></i>"
+      "license": {
+        "title": "Licences",
+        "url": "/admin/item/license",
+        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
       }
     }
   },
+    "license": {
+      "title": "Commentaires",
+      "url": "/admin/item/comment",
+      "icon": "<i class=\"nav-icon fa-solid fa-comment\"></i>"
+    },
   "media": {
     "title": "Medias",
     "url": "/admin/media",
