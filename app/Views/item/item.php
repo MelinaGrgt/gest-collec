@@ -257,11 +257,10 @@
 
                                                                 <!-- bouton pour les likes-->
 
-                                                               <i class="fa-solid fa-thumbs-up text-primary"  id="like-button" type="button" data-bs-toggle="modal" data-item-id="<?= $C['id'] ?>" title="J'aime"> id="like-button"</i>
-
+                                                               <i class="fa-solid fa-thumbs-up text-primary"  id="like-button" type="button" data-item-id="<?= $C['id'] ?>" title="J'aime"></i>
 
                                                              <!--Affichage du nombre de like par commentaire-->
-                                                             <span>| J'aime <?=$C["nb_likes"]?></span>
+                                                             <span id="likes_display">| J'aime <?=$C["nb_likes"]?></span>
                                                           <?php }
                                                     } ?>
                                                 </span>
@@ -398,8 +397,22 @@
         }
     } );
     splide.mount();
+</script>
+<script>
+    $(document).ready(function() {
+        //declaration des variables
+        let nblikes = 0;
 
+        function updateDisplay() {
+            $('#likes_display').text(`| J'aime ${nblikes}`);
+        }
 
+        $('#like-button').click(function() {
+            nblikes += 1;  // Incrémente le nombre de likes
+            updateDisplay();  // Met à jour l'affichage
+        });
+        updateDisplay();
+    });
 </script>
 
 

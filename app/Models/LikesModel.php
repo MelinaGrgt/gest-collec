@@ -53,4 +53,5 @@ class LikesModel extends Model
     public function hasLiked($id_user, $id_comment) {
         return $this->where('id_user', $id_user)->where('id_item', $id_comment)->countAllResults() > 0;
     }
+
 }
