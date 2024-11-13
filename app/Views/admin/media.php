@@ -42,7 +42,7 @@
                                     </div>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                                             <?= $media['entity_type'] ?>
-                                        </span>
+                                    </span>
                                 </div>
                             </div>
                             <img class="img-thumbnail" src="<?= base_url($media['file_path']) ?>" ?>
@@ -119,20 +119,23 @@
                         // Ajout dynamique des medias
                         data.forEach(function(media) {
                             const mediaElement = `
-                    <div class="col-4 col-md-2 mb-4 d-flex align-items-center position-relative media" data-id="${media.id}">
-                        <div class="media-mask bg-black bg-opacity-75 d-none rounded">
-                            <div class="d-flex flex-column justify-content-center h-100 text-center p-2">
-                                <div class="btn btn-danger mb-3 media-delete">
-                                    <i class="fa fa-solid fa-trash"></i> Supprimer
+                            <div class="col-4 col-md-2 mb-4 d-flex align-items-center position-relative media" data-id="${media.id}">
+                                <div class="media-mask bg-black bg-opacity-75 d-none rounded">
+                                    <div class="d-flex flex-column justify-content-center h-100 text-center p-2">
+                                        <div class="btn btn-danger mb-3 media-delete">
+                                            <i class="fa fa-solid fa-trash"></i> Supprimer
+                                        </div>
+                                        <div class="btn btn-secondary media-edit">
+                                            <i class="fa fa-solid fa-pencil"></i> Editer
+                                        </div>
+                                    </div>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                            ${media.entity_type}
+                                        </span>
                                 </div>
-                                <div class="btn btn-secondary media-edit">
-                                    <i class="fa fa-solid fa-pencil"></i> Editer
-                                </div>
+                                <img class="img-thumbnail" src="${media.file_path}" alt="media-image">
                             </div>
-                        </div>
-                        <img class="img-thumbnail" src="<?=base_url('${media.file_path}')?>" alt="media-image">
-                    </div>
-                `;
+                        `;
                             row.append(mediaElement);
                         });
                     }
@@ -157,20 +160,23 @@
                         // Ajout dynamique des medias
                         data.forEach(function(media) {
                             const mediaElement = `
-                    <div class="col-4 col-md-2 mb-4 d-flex align-items-center position-relative media" data-id="${media.id}">
-                        <div class="media-mask bg-black bg-opacity-75 d-none rounded">
-                            <div class="d-flex flex-column justify-content-center h-100 text-center p-2">
-                                <div class="btn btn-danger mb-3 media-delete">
-                                    <i class="fa fa-solid fa-trash"></i> Supprimer
+                            <div class="col-4 col-md-2 mb-4 d-flex align-items-center position-relative media" data-id="${media.id}">
+                                <div class="media-mask bg-black bg-opacity-75 d-none rounded">
+                                    <div class="d-flex flex-column justify-content-center h-100 text-center p-2">
+                                        <div class="btn btn-danger mb-3 media-delete">
+                                            <i class="fa fa-solid fa-trash"></i> Supprimer
+                                        </div>
+                                        <div class="btn btn-secondary media-edit">
+                                            <i class="fa fa-solid fa-pencil"></i> Editer
+                                        </div>
+                                    </div>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                            ${media.entity_type}
+                                        </span>
                                 </div>
-                                <div class="btn btn-secondary media-edit">
-                                    <i class="fa fa-solid fa-pencil"></i> Editer
-                                </div>
+                                <img class="img-thumbnail" src="${media.file_path}" alt="media-image">
                             </div>
-                        </div>
-                        <img class="img-thumbnail" src="<?=base_url('${media.file_path}')?>" alt="media-image">
-                    </div>
-                `;
+                        `;
                             row.append(mediaElement);
                         });
                     offset = parseInt(offset) + parseInt(limit);
