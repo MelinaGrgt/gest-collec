@@ -78,6 +78,7 @@ abstract class BaseController extends Controller
     protected $messages = [];
 
     protected $requiredPermissions = ['collaborateur'];
+    protected $noAuthMethods = [];
     protected $toastr = true;
 
     protected function menus($admin)
@@ -114,7 +115,8 @@ abstract class BaseController extends Controller
         $this->router  = service('router');
 
         // Vérifier l'authentification si nécessaire
-        if ($this->require_auth) {
+        $currentMethod = strtolower($this->router->methodName());
+        if ($this->require_auth && !in_array($currentMethod, $this->noAuthMethods)) {
             $this->checkLogin();
             $this->checkPermission();
         }
@@ -127,8 +129,13 @@ abstract class BaseController extends Controller
     {
         if (!isset($this->session->user)) {
             if ($redirect) {
-                $this->session->set('redirect_url', current_url(true)->getPath()); // Save the current URL for redirection after login
-                return $this->redirect('/login');
+                $segments_url = current_url(true)->getSegments();
+                $redirect_url = "";
+                foreach($segments_url as $segment) {
+                    $redirect_url .= "/" . $segment;
+                }
+                $this->session->set('redirect_url', $redirect_url);
+                $this->redirect('/login');
             }
             return false;
         }

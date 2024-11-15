@@ -65,11 +65,13 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 // Si le contrôleur est "collection", afficher que les objets appartiennent à la collection de l'utilisateur
                 if ($controller == "collection") {
                     echo "de la collection de " . ucfirst($data['username']);
-                    if ($user->username != $data['username']) { ?>
-                        <a href="<?= base_url("/user/sendmessage/" . $data['username']); ?>" title="Envoyer un message privé">
-                            <i class="fa-solid fa-envelope"></i>
-                        </a>
+                    if($user== null){?> <a href="<?=base_url('/login')?>"><i class="fa-solid fa-envelope"></i></a> <?php } else {
+                        if ($user->username != $data['username']) { ?>
+                            <a href="<?= base_url("/user/sendmessage/" . $data['username']); ?>" title="Envoyer un message privé">
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
                         <?php
+                        }
                     }
                 }
                 // Vérification et affichage des filtres appliqués
@@ -231,6 +233,12 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
         right: 0;
         opacity: 0; /* Caché par défaut */
         transition: opacity 0.3s ease; /* Effet de transition pour la visibilité */
+    }
+
+    .card-img-top {
+        width: 100%; /* Définissez la taille du carré souhaitée */
+        height:170px;
+        object-fit: contain;
     }
 </style>
 
