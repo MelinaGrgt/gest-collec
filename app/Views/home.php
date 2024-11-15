@@ -111,5 +111,10 @@
         opacity: 0; /* Caché par défaut */
         transition: opacity 0.3s ease; /* Effet de transition pour la visibilité */
     }
+    .card-img-top {
+        width: 100%; /* Définissez la taille du carré souhaitée */
+        height: 200px;
+        object-fit: cover;
+    }
 </style>
 

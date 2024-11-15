@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col">
                     <div class="pagination justify-content-center">
-                        <?= $pager->links('default', 'bootstrap_pagination'); ?>
+
                     </div>
                 </div>
             </div>
@@ -38,7 +38,6 @@
         position: relative; /* Positionnement nécessaire pour le pseudo-élément */
         margin-bottom: 50px; /* Assurez-vous d'avoir un espace en bas pour l'étagère */
     }
-
     .shelf-row::after {
         content: '';
         display: block; /* Rendre le pseudo-élément un bloc pour pouvoir ajuster la largeur */
@@ -79,5 +78,10 @@
         right: 0;
         opacity: 0; /* Caché par défaut */
         transition: opacity 0.3s ease; /* Effet de transition pour la visibilité */
+    }
+    .card-img-top {
+        width: 100%; /* Définissez la taille du carré souhaitée */
+        height: 150px;
+        object-fit: contain;
     }
 </style>
