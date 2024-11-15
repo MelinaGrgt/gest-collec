@@ -47,12 +47,18 @@ class Userpermission extends BaseController
         }
     }
 
-    public function getdelete($id){
+    public function getdelete($id)
+    {
         $upm = Model('UserPermissionModel');
-        if ($upm->deletePermission($id)) {
-            $this->success("Rôle supprimé");
+        if ($id < 4) {
+            $this->error("Ce rôle ne peut pas être supprimé");
         } else {
-            $this->error("Rôle non supprimé");
+            if ($upm->deletePermission($id)) {
+                $this->success("Rôle supprimé");
+            } else {
+                $this->error("Rôle non supprimé");
+            }
+            $this->redirect('/admin/userpermission');
         }
         $this->redirect('/admin/userpermission');
     }

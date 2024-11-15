@@ -17,7 +17,7 @@ class User extends BaseController
             return $this->view("/login");
         }
     }
-    public function getsendmessage($username=null){ // recupere les info à partir de l'url
+    public function getsendmessage($username=null){
        return $this->view("/message/sendmessage",['username'=>$username]);
     }
 
@@ -44,5 +44,12 @@ class User extends BaseController
         }
         $this->error("Erreur lors de l'envoi du message");
         $this->redirect('/collection');
+    }
+
+    public function getusers(){
+        // Récupérer le pager pour générer les liens de pagination
+        $pager = Model('UserModel')->pager;
+        $users = Model('UserModel')->getUserforfront();
+        return $this->view("/users", ['users'=>$users, 'pager'=>$pager]);
     }
 }
