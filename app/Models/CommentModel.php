@@ -148,7 +148,7 @@ class CommentModel extends Model
     public function getTotal($custom_filter=null,$custom_filter_value=null)
     {
         $builder = $this->builder();
-        $builder->select("comment.id, comment.content,i.name, comment.id_comment_parent, u.username,comment.entity_id,comment.updated_at, comment.deleted_at");
+        $builder->select("comment.id, comment.content, i.name, comment.id_comment_parent, u.username,comment.entity_id,comment.updated_at, comment.deleted_at");
         $builder->join('TableUser u', 'u.id = comment.id_user');
         $builder->join('item i', 'i.id = comment.entity_id');
         $builder->where('comment.entity_type','item');
@@ -164,13 +164,6 @@ class CommentModel extends Model
         }
         return $builder->countAllResults();
     }
-
-    public function getupdatecomment($data)
-    {  $builder = $this->db->table('comment');
-        $builder -> where('id', $data['id']);
-        return $builder->update($data);
-    }
-
 
     public function getFiltered($searchValue, $custom_filter=null, $custom_filter_value=null)
     {
@@ -214,5 +207,12 @@ class CommentModel extends Model
         $builder->where('id', $id);
         return $builder->update();
     }
+
+    public function getupdatecomment($data)
+    {  $builder = $this->db->table('comment');
+        $builder -> where('id', $data['id']);
+        return $builder->update($data);
+    }
+
 
 }
