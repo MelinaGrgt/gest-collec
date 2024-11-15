@@ -46,8 +46,8 @@
         height: auto; /* hauteur fixe du carousel, ajuste cette valeur selon tes besoins */
         overflow: hidden; /* masque les débordements */
     }
+}
 </style>
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -60,11 +60,38 @@
                 </div>
                  <!--Affichage de la notation-->
                  <div class="d-flex align-items-center">
-                     <div class="rating">
-                         <?php if($AVGrating==null) { ?>
-                             Pas encore noté <br>
-                         <?php } else { renderStars($AVGrating);}?>
+                     <div class="stars">
+                         <i class="fa-solid fa-star" data-value="1"></i>
+                         <i class="fa-solid fa-star" data-value="2"></i>
+                         <i class="fa-solid fa-star" data-value="3"></i>
+                         <i class="fa-solid fa-star" data-value="4"></i>
+                         <i class="fa-solid fa-star" data-value="5"></i>
                      </div>
+                     <input type="text" name="note" id="note" value="0">
+
+                     <script>
+                         $(document).ready(function() {
+                             const stars = document.querySelectorAll(".fa-star");
+                             const note = document.querySelector("#note");
+                             for(star of stars){
+                                 star.addEventListener("mouseover",function(){
+                                    resetStars();
+                                    this.style.color = "red";
+
+                                    let previousStar = this.previousElementSibling;
+                                    while(previousStar) {
+                                        previousStar.style.color = "red";
+                                        previousStar = previousStar.previousElementSibling;
+                                    }
+                                 });
+                             }
+                             function resetStars(){
+                                 for(star of stars){
+                                     star.style.color = "black";
+                                 }
+                             }
+                         }
+                     </script>
                  <div>
             </div>
         </div>
@@ -413,6 +440,9 @@
         });
         updateDisplay();
     });
+</script>
+<script>
+
 </script>
 
 

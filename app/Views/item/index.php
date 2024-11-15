@@ -74,7 +74,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 }
                 // Vérification et affichage des filtres appliqués
                 if ($data) {
-                    $filtre_text = "| Filtrer par :  ";
+                    $filtre_text = " | Filtrer par :  ";
                     foreach ($data as $filter => $slug) {
                         switch ($filter) {
                             case 'license' :
@@ -133,7 +133,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                                     </a>
                                     <!--AFFICHAGE DU NOM DE L'OBJET-->
                                     <div class="card-body">
-                                        <div class="card-title"><?= ucfirst($item['name']); ?></div>
+                                        <div class="card-title"><b><?= ucfirst($item['name']); ?></b></div>
                                     </div>
                                     <!--AFFICHAGE DES OPTIONS POUR AJOUTER OU SUPPRIMER DANS LA COLLECTION L'OBJET-->
                                     <div class="card-footer text-center">
@@ -268,12 +268,6 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
 
     });
 </script>
-
-
-
-
-
-
 <!-- START: OFFCANVAS -->
 <?php if (isset($user) && $user->isAdmin()) : ?>
     <a class="link-underline-opacity-0 position-fixed bottom-0 end-0 m-4" data-bs-toggle="offcanvas" href="<?=base_url('#offcanvasItem')?>" role="button" aria-controls="offcanvasExample">

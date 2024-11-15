@@ -3,25 +3,19 @@
     "title" : "Objets",
     "url" : "/item",
     "icon": "<i class=\"nav-icon fa-solid fa-boxes-stacked\"></i>",
-    "subs" : {
-      "item": {
-        "title" : "Objets",
-        "url" : "/item",
-        "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
-      }
-    }
+    "class": "main-menu-acceuil"
+  },
+  "users": {
+    "title" : "Utilisateurs",
+    "url" : "/user/users",
+    "icon": "<i class=\"fa-solid fa-users\"></i>",
+    "class": "users"
   },
   "collection": {
-    "title" : "Collection",
-    "url" : "/collection",
+    "title": "Ma collection",
+    "url": "/collection",
     "icon": "<i class=\"nav-icon fa-solid fa-boxes-stacked\"></i>",
-    "subs" : {
-      "item": {
-        "title" : "Collection",
-        "url" : "/collection",
-        "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
-      }
-    }
+    "class": "my-collection"
   },
   "message" : {
     "title" : "Messagerie",
@@ -31,7 +25,12 @@
       "chat" : {
         "title": "Chat",
         "url" : "/chat",
-        "icon" : "<i></i>"
+        "icon" : "<i class=\"fa-solid fa-comments\"></i>"
+      },
+      "messagerie" : {
+        "title": "Messagerie",
+        "url" : "/user/message/messagerie",
+        "icon" : "<i class=\"fa-solid fa-envelope\"></i>"
       }
     }
   }

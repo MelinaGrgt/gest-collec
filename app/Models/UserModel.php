@@ -60,7 +60,6 @@ class UserModel extends Model
         if (!isset($data['data']['password'])) {
             return $data;
         }
-
         $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
         return $data;
     }
@@ -188,5 +187,13 @@ class UserModel extends Model
             return $row->id;
         }
         return null;
+    }
+
+    public function getUserforfront(){
+        $builder= $this->db->table('TableUser tu');
+        $builder->select('tu.username,m.file_path');
+        $builder->join('media m', 'tu.id = m.entity_id AND m.entity_type = "user"', 'left');
+        $builder->where('tu.deleted_at', NULL);
+        return $builder->get()->getResultArray();
     }
 }
