@@ -343,6 +343,14 @@
                                 <i class="fa-solid fa-minus"></i>
                                 Retirer de ma collection
                             </a> <?php } ?>
+
+                            <form action="<?=base_url('/cart/addproduct');?>" method="POST">
+                                <input name="quantity" value="1" type="hidden">
+                                <input name="id" value="<?=$item['id'];?>" type="hidden">
+                                <input name="name" value="<?=$item['item_name'];?>" type="hidden">
+                                <input name="price" value="<?=$item['price'];?>" type="hidden">
+                                <button type="submit" class="btn btn-primary mb-3">Ajouter au panier</button>
+                            </form>
                             <!--AFFICHAGE DE LA DATE DE SORTIE DE L'ITEM-->
                             <small>Date de Sortie :
                                 <?php if($item['release_date']=='0000-00-00'):?>
